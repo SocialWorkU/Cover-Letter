@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialWorkU Cover Letter Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #163C77 0%, #3CBFBF 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #163C77, #3CBFBF);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .sw-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 700px;
+        }
+
+        .form-section {
+            padding: 40px;
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .output-section {
+            padding: 40px;
+            background: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3CBFBF;
+            box-shadow: 0 0 0 3px rgba(60, 191, 191, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #163C77, #3CBFBF);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(22, 60, 119, 0.3);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .output-header h2 {
+            color: #1f2937;
+            font-size: 1.5rem;
+        }
+
+        .copy-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .cover-letter-output {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            min-height: 600px;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #374151;
+            overflow-y: auto;
+        }
+
+        .placeholder-text {
+            color: #9ca3af;
+            font-style: italic;
+            text-align: center;
+            padding-top: 150px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 100px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3CBFBF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tip {
+            background: #e0f2fe;
+            border-left: 4px solid #3CBFBF;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-icon {
+            color: #3CBFBF;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .sw-specific {
+            background: #f0f9ff;
+            border: 1px solid #3CBFBF;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sw-specific h4 {
+            color: #163C77;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .quick-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: #e0f2fe;
+            color: #163C77;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: #3CBFBF;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-section {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+                max-height: none;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                margin: 10px;
+            }
+        }
+
+        .field-help {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .character-count {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-align: right;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Social Work Cover Letter Generator</h1>
+            <p>Create professional, social work-focused cover letters with field-specific terminology</p>
+            <div class="sw-badge">Powered by SocialWorkU</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    <strong>Social Work Tip:</strong> Include specific populations you've worked with, therapeutic approaches you use, and relevant licensure status. The more details you provide, the more tailored your cover letter will be!
+                </div>
+                
+                <form id="coverLetterForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="credentials">Professional Credentials</label>
+                            <input type="text" id="credentials" name="credentials" placeholder="e.g., MSW, LCSW, LMSW">
+                            <div class="field-help">Include your degree and license (if applicable)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" placeholder="City, State">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="companyName">Organization/Agency Name *</label>
+                            <input type="text" id="companyName" name="companyName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="organizationType">Organization Type</label>
+                            <select id="organizationType" name="organizationType">
+                                <option value="">Select Type</option>
+                                <option value="Nonprofit Organization">Nonprofit Organization</option>
+                                <option value="Hospital / Health System">Hospital / Health System</option>
+                                <option value="Government Agency">Government Agency</option>
+                                <option value="School / University">School / University</option>
+                                <option value="Private Practice">Private Practice</option>
+                                <option value="Behavioral Health Center">Behavioral Health Center</option>
+                                <option value="Community Mental Health">Community Mental Health</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="position">Position Title *</label>
+                            <input type="text" id="position" name="position" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobCategory">Job Category</label>
+                            <select id="jobCategory" name="jobCategory">
+                                <option value="">Select Category</option>
+                                <option value="Clinical Social Work">Clinical Social Work</option>
+                                <option value="School Social Work">School Social Work</option>
+                                <option value="Medical / Hospital">Medical / Hospital</option>
+                                <option value="Community / Nonprofit">Community / Nonprofit</option>
+                                <option value="Criminal Justice">Criminal Justice</option>
+                                <option value="Gerontology / Aging">Gerontology / Aging</option>
+                                <option value="Case Management">Case Management</option>
+                                <option value="Policy & Advocacy">Policy & Advocacy</option>
+                                <option value="Administration / Management">Administration / Management</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hiringManager">Hiring Manager Name</label>
+                        <input type="text" id="hiringManager" name="hiringManager" placeholder="Optional">
+                    </div>
+
+                    <div class="sw-specific">
+                        <h4>Social Work Experience & Skills</h4>
+                        
+                        <div class="form-group">
+                            <label for="populations">Populations You've Worked With</label>
+                            <textarea id="populations" name="populations" placeholder="e.g., Children & Youth, Adults, Families, Veterans, LGBTQ+ community, Trauma survivors..."></textarea>
+                            <div class="quick-tags" id="populationTags">
+                                <div class="tag" onclick="addToField('populations', 'Children & Youth')">Children & Youth</div>
+                                <div class="tag" onclick="addToField('populations', 'Adults')">Adults</div>
+                                <div class="tag" onclick="addToField('populations', 'Families')">Families</div>
+                                <div class="tag" onclick="addToField('populations', 'Veterans')">Veterans</div>
+                                <div class="tag" onclick="addToField('populations', 'LGBTQ+')">LGBTQ+</div>
+                                <div class="tag" onclick="addToField('populations', 'Trauma Survivors')">Trauma Survivors</div>
+                                <div class="tag" onclick="addToField('populations', 'Older Adults')">Older Adults</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clinicalSkills">Clinical & Therapeutic Skills</label>
+                            <textarea id="clinicalSkills" name="clinicalSkills" placeholder="e.g., Individual therapy, Group therapy, Crisis intervention, Risk assessment..."></textarea>
+                            <div class="quick-tags">
+                                <div class="tag" onclick="addToField('clinicalSkills', 'Individual Therapy')">Individual Therapy</div>
+                                <div class="tag" onclick="addToField('clinicalSkills', 'Group Therapy')">Group Therapy</div>
+                                <div class="tag" onclick="addToField('clinicalSkills', 'Crisis Intervention')">Crisis Intervention</div>
+                                <div class="tag" onclick="addToField('clinicalSkills', 'Risk Assessment')">Risk Assessment</div>
+                                <div class="tag" onclick="addToField('clinicalSkills', 'Treatment Planning')">Treatment Planning</div>
+                                <div class="tag" onclick="addToField('clinicalSkills', 'Case Management')">Case Management</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="therapeuticApproaches">Therapeutic Approaches</label>
+                            <textarea id="therapeuticApproaches" name="therapeuticApproaches" placeholder="e.g., CBT, DBT, Trauma-Informed Care, Motivational Interviewing..."></textarea>
+                            <div class="quick-tags">
+                                <div class="tag" onclick="addToField('therapeuticApproaches', 'CBT')">CBT</div>
+                                <div class="tag" onclick="addToField('therapeuticApproaches', 'DBT')">DBT</div>
+                                <div class="tag" onclick="addToField('therapeuticApproaches', 'Trauma-Informed Care')">Trauma-Informed Care</div>
+                                <div class="tag" onclick="addToField('therapeuticApproaches', 'Motivational Interviewing')">Motivational Interviewing</div>
+                                <div class="tag" onclick="addToField('therapeuticApproaches', 'Solution-Focused Therapy')">Solution-Focused</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobDescription">Job Description/Requirements</label>
+                        <textarea id="jobDescription" name="jobDescription" placeholder="Paste key requirements from the job posting or describe what you know about the role..."></textarea>
+                        <div class="character-count" id="jobDescCount">0/500</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Your Relevant Experience & Achievements</label>
+                        <textarea id="experience" name="experience" placeholder="Describe your social work experience, internships, volunteer work, and specific achievements..."></textarea>
+                        <div class="character-count" id="experienceCount">0/800</div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="licenseStatus">License Status</label>
+                            <select id="licenseStatus" name="licenseStatus">
+                                <option value="">Select Status</option>
+                                <option value="BSW Graduate">BSW Graduate</option>
+                                <option value="MSW Graduate">MSW Graduate</option>
+                                <option value="LMSW">LMSW</option>
+                                <option value="LCSW">LCSW</option>
+                                <option value="Working Toward Licensure">Working Toward Licensure</option>
+                                <option value="License Eligible">License Eligible</option>
+                                <option value="Student/Intern">Student/Intern</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tone">Cover Letter Tone</label>
+                            <select id="tone" name="tone">
+                                <option value="professional">Professional & Compassionate</option>
+                                <option value="enthusiastic">Enthusiastic & Committed</option>
+                                <option value="confident">Confident & Experienced</option>
+                                <option value="advocacy-focused">Advocacy-Focused</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="generate-btn">
+                        🎯 Generate Social Work Cover Letter
+                    </button>
+                </form>
+            </div>
+            
+            <div class="output-section">
+                <div class="output-header">
+                    <h2>Your Cover Letter</h2>
+                    <button class="copy-btn" id="copyBtn" style="display: none;">📋 Copy to Clipboard</button>
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your social work cover letter...</p>
+                    <small>Incorporating field-specific terminology and best practices</small>
+                </div>
+                
+                <div class="cover-letter-output" id="output">
+                    <div class="placeholder-text">
+                        Fill out the form on the left and click "Generate Social Work Cover Letter" to create your personalized, field-specific cover letter.
+                        <br><br>
+                        <strong>Features:</strong><br>
+                        • Social work terminology & language<br>
+                        • Population-specific experience<br>
+                        • Therapeutic approaches & clinical skills<br>
+                        • License status integration<br>
+                        • Professional social work tone
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character counting
+        document.getElementById('jobDescription').addEventListener('input', function() {
+            updateCharCount('jobDescription', 'jobDescCount', 500);
+        });
+        
+        document.getElementById('experience').addEventListener('input', function() {
+            updateCharCount('experience', 'experienceCount', 800);
+        });
+
+        function updateCharCount(fieldId, countId, max) {
+            const field = document.getElementById(fieldId);
+            const counter = document.getElementById(countId);
+            const current = field.value.length;
+            counter.textContent = `${current}/${max}`;
+            counter.style.color = current > max ? '#ef4444' : '#9ca3af';
+        }
+
+        // Add content to fields via quick tags
+        function addToField(fieldId, content) {
+            const field = document.getElementById(fieldId);
+            const currentValue = field.value;
+            
+            if (currentValue && !currentValue.endsWith(', ') && !currentValue.endsWith(',')) {
+                field.value = currentValue + ', ' + content;
+            } else {
+                field.value = currentValue + content;
+            }
+        }
+
+        document.getElementById('coverLetterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateCoverLetter();
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const output = document.getElementById('output');
+            const text = output.textContent;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#059669';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#10b981';
+                }, 2000);
+            });
+        });
+
+        function generateCoverLetter() {
+            const form = document.getElementById('coverLetterForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('output').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'none';
+            
+            // Simulate processing time
+            setTimeout(() => {
+                const coverLetter = createSocialWorkCoverLetter(data);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('output').style.display = 'block';
+                document.getElementById('output').textContent = coverLetter;
+                document.getElementById('copyBtn').style.display = 'block';
+            }, 2500);
+        }
+
+        function createSocialWorkCoverLetter(data) {
+            const currentDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Create full name with credentials
+            const fullNameWithCreds = data.credentials 
+                ? `${data.fullName}, ${data.credentials}`
+                : data.fullName;
+            
+            const greeting = data.hiringManager 
+                ? `Dear ${data.hiringManager},`
+                : `Dear Hiring Manager,`;
+            
+            const toneAdjustments = {
+                professional: {
+                    opening: "I am writing to express my strong interest in",
+                    approach: "my commitment to evidence-based practice and client-centered care",
+                    closing: "I would welcome the opportunity to discuss how my passion for social work and dedication to serving others can contribute to your team's mission."
+                },
+                enthusiastic: {
+                    opening: "I am excited to apply for",
+                    approach: "my enthusiasm for empowering individuals and families through compassionate social work practice",
+                    closing: "I am eager to bring my passion for social justice and client advocacy to your organization."
+                },
+                confident: {
+                    opening: "My experience in social work practice makes me an ideal candidate for",
+                    approach: "my proven ability to provide effective interventions and achieve positive client outcomes",
+                    closing: "I am confident in my ability to make an immediate and meaningful impact on the lives of those served by your organization."
+                },
+                "advocacy-focused": {
+                    opening: "As a dedicated advocate for social justice, I am compelled to apply for",
+                    approach: "my commitment to addressing systemic barriers and promoting equity through direct practice and advocacy",
+                    closing: "I look forward to joining your team in advancing social justice and creating positive change in our community."
+                }
+            };
+            
+            const tone = toneAdjustments[data.tone] || toneAdjustments.professional;
+            
+            let coverLetter = `${fullNameWithCreds}
+${data.email}${data.phone ? '\n' + data.phone : ''}${data.location ? '\n' + data.location : ''}
+
+${currentDate}
+
+${data.companyName}
+
+${greeting}
+
+${tone.opening} the ${data.position} position at ${data.companyName}.`;
+
+            // Add organization type context if provided
+            if (data.organizationType && data.jobCategory) {
+                coverLetter += ` As a ${data.organizationType.toLowerCase()} specializing in ${data.jobCategory.toLowerCase()}, your organization aligns perfectly with my professional interests and career goals.`;
+            } else if (data.organizationType) {
+                coverLetter += ` I am particularly drawn to the important work that ${data.companyName} does as a ${data.organizationType.toLowerCase()}.`;
+            }
+
+            // License status paragraph
+            if (data.licenseStatus) {
+                let licenseText = "";
+                switch(data.licenseStatus) {
+                    case "LCSW":
+                        licenseText = "As a Licensed Clinical Social Worker, I bring advanced clinical skills and the ability to provide independent practice and supervision.";
+                        break;
+                    case "LMSW":
+                        licenseText = "As a Licensed Master Social Worker, I am actively working toward clinical licensure while providing quality social work services under appropriate supervision.";
+                        break;
+                    case "Working Toward Licensure":
+                        licenseText = "I am currently working toward licensure and am committed to completing all requirements for clinical practice, including supervised hours and continuing education.";
+                        break;
+                    case "MSW Graduate":
+                        licenseText = "As a recent MSW graduate, I bring current knowledge of best practices, evidence-based interventions, and contemporary social work theory.";
+                        break;
+                    case "BSW Graduate":
+                        licenseText = "With my BSW foundation, I am prepared for generalist social work practice and eager to continue developing my professional skills.";
+                        break;
+                    case "Student/Intern":
+                        licenseText = "As a social work student, I am committed to learning and applying social work values, ethics, and evidence-based practices in real-world settings.";
+                        break;
+                    default:
+                        licenseText = `With my current status as ${data.licenseStatus.toLowerCase()}, I am positioned to contribute effectively to your team.`;
+                }
+                coverLetter += ` ${licenseText}`;
+            }
+
+            // Experience and populations paragraph
+            if (data.experience || data.populations || data.clinicalSkills) {
+                coverLetter += `\n\nMy social work experience has equipped me with the knowledge and skills essential for effective practice.`;
+                
+                if (data.populations) {
+                    coverLetter += ` I have had the privilege of working with diverse populations including ${data.populations.toLowerCase()}, which has deepened my understanding of cultural competency and the importance of meeting clients where they are.`;
+                }
+                
+                if (data.clinicalSkills) {
+                    coverLetter += ` My clinical skills include ${data.clinicalSkills.toLowerCase()}, all of which are essential for providing comprehensive social work services.`;
+                }
+                
+                if (data.therapeuticApproaches) {
+                    coverLetter += ` I am trained in various therapeutic approaches including ${data.therapeuticApproaches}, allowing me to tailor interventions to meet individual client needs.`;
+                }
+                
+                if (data.experience) {
+                    coverLetter += ` ${data.experience}`;
+                }
+            }
+
+            // Job-specific paragraph
+            if (data.jobDescription) {
+                coverLetter += `\n\nReviewing the position requirements, I am particularly excited about the opportunity to ${data.jobDescription.substring(0, 200).toLowerCase()}${data.jobDescription.length > 200 ? '...' : ''}. This role aligns perfectly with ${tone.approach}.`;
+            }
+
+            // Social work values and mission paragraph
+            coverLetter += `\n\nThroughout my practice, I have remained committed to the core values of social work: service, social justice, dignity and worth of the person, importance of human relationships, integrity, and competence. I believe in the power of the therapeutic relationship and the importance of cultural humility in all interactions.`;
+
+            // Organization-specific closing
+            if (data.organizationType) {
+                let orgSpecific = "";
+                switch(data.organizationType) {
+                    case "Hospital / Health System":
+                        orgSpecific = "I am drawn to the integrated care model and the opportunity to address both medical and psychosocial needs.";
+                        break;
+                    case "School / University":
+                        orgSpecific = "I am passionate about supporting educational success and addressing barriers that impact academic achievement.";
+                        break;
+                    case "Community Mental Health":
+                        orgSpecific = "I am committed to increasing access to mental health services and reducing stigma in our community.";
+                        break;
+                    case "Government Agency":
+                        orgSpecific = "I appreciate the opportunity to work within systems to create policy-level change and improve service delivery.";
+                        break;
+                    case "Nonprofit Organization":
+                        orgSpecific = "I am inspired by the mission-driven work and community-based approach to addressing social issues.";
+                        break;
+                    default:
+                        orgSpecific = `I am excited about the opportunity to contribute to ${data.companyName}'s mission and impact.`;
+                }
+                coverLetter += ` ${orgSpecific}`;
+            }
+
+            coverLetter += `\n\n${tone.closing}
+
+Thank you for considering my application. I look forward to the opportunity to discuss how I can contribute to the vital work being done at ${data.companyName}.
+
+Sincerely,
+${fullNameWithCreds}`;
+
+            return coverLetter;
+        }
+    </script>
+</body>
+</html>
